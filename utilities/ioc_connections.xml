@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+id is the string that identifies the connection with a specific board; eg. GCU0, GCU1, ...., GCU18000
+remeber to set the IP address as it is in the firmware.
+check also that the addressing table file name matches
+-->
+<connections>
+ <connection id="IOC" uri="ipbusudp-2.0://10.10.10.100:50001" address_table="file://ioc_example_design.xml"/>
+</connections>

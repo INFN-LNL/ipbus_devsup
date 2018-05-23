@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>ipbus_devsup</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+	<variableList>
+		<variable>
+			<name>EPICS_ASYN</name>
+			<value>file:/opt/epics/v3_15/support/asyn</value>
+		</variable>
+		<variable>
+			<name>EPICS_BASE</name>
+			<value>file:/opt/epics/v3_15/base</value>
+		</variable>
+	</variableList>
+</projectDescription>

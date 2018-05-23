@@ -1,0 +1,78 @@
+<node id="TOP">
+  <node id="stat_reg" address="0x0000" description="stat registers" permission="r" fwinfo="endpoint;width=2" tags="slave0">
+   <node id="magic_world"      address="0x0"/>
+   <node id="firmware_version" address="0x1"/>
+  </node>
+  <node id="regg" address="0x4" description="register" fwinfo="endpoint;width=2" tags="slave1"/>
+  <node id="err_inject" address="0x8" description="error injection ctrl/stat" fwinfo="endpoint;width=2" tags="slave2"/>
+  <node id="pkt_ctr" address="0xc" description="read-write register" fwinfo="endpoint;width=2" tags="slave3"/>
+  <node id="ram" address="0x400" mode="block" size="0x400" description="RAM" fwinfo="endpoint;width=10" tags="slave4"/>
+  <node id="pram" address="0x800" mode="block" size="0x400" description="RAM" fwinfo="endpoint;width=10" tags="slave5"/>
+  <node id="registers" address="0xc00" description="stack of read and write registers" fwinfo="endpoint;width=6" tags="slave6">
+    <node id="reg1" address="0x0"/>  
+    <node id="reg2" address="0x1"/>
+    <node id="reg3" address="0x2"/>
+    <node id="reg4" address="0x3"/>
+    <node id="reg5" address="0x4"/>
+    <node id="reg6" address="0x5"/>
+    <node id="reg7" address="0x6"/>
+    <node id="reg8" address="0x7"/>
+    <node id="reg9" address="0x8"/>
+    <node id="reg10" address="0x9"/>
+    <node id="reg11" address="0xa"/>
+    <node id="reg12" address="0xb"/>
+    <node id="reg13" address="0xc"/>
+    <node id="reg14" address="0xd"/>
+    <node id="reg15" address="0xe"/>
+    <node id="reg16" address="0xf"/>
+    <node id="reg17" address="0x10"/>
+    <node id="reg18" address="0x11"/>
+    <node id="reg19" address="0x12"/>
+    <node id="reg20" address="0x13"/>
+    <node id="reg21" address="0x14"/>
+    <node id="reg22" address="0x15"/>
+    <node id="reg23" address="0x16"/>
+    <node id="reg24" address="0x17"/>
+    <node id="reg25" address="0x18"/>
+    <node id="reg26" address="0x19"/>
+    <node id="reg27" address="0x1a"/>
+    <node id="reg28" address="0x1b"/>
+    <node id="reg29" address="0x1c"/>
+    <node id="reg30" address="0x1d"/>
+    <node id="reg31" address="0x1e"/>
+    <node id="reg32" address="0x1f"/>
+    <node id="reg33" address="0x20"/>
+    <node id="reg34" address="0x21"/>
+    <node id="reg35" address="0x22"/>
+    <node id="reg36" address="0x23"/>
+    <node id="reg37" address="0x24"/>
+    <node id="reg38" address="0x25"/>
+    <node id="reg39" address="0x26"/>
+    <node id="reg40" address="0x27"/>
+    <node id="reg41" address="0x28"/>
+    <node id="reg42" address="0x29"/>
+    <node id="reg43" address="0x2a"/>
+    <node id="reg44" address="0x2b"/>
+    <node id="reg45" address="0x2c"/>
+    <node id="reg46" address="0x2d"/>
+    <node id="reg47" address="0x2e"/>
+    <node id="reg48" address="0x2f"/>
+    <node id="reg49" address="0x30"/>
+    <node id="reg50" address="0x31"/>
+    <node id="reg51" address="0x32"/>
+    <node id="reg52" address="0x33"/>
+    <node id="reg53" address="0x34"/>
+    <node id="reg54" address="0x35"/>
+    <node id="reg55" address="0x36"/>
+    <node id="reg56" address="0x37"/>
+    <node id="reg57" address="0x38"/>
+    <node id="reg58" address="0x39"/>
+    <node id="reg59" address="0x3a"/>
+    <node id="reg60" address="0x3b"/>
+    <node id="reg61" address="0x3c"/>
+    <node id="reg62" address="0x3d"/>
+    <node id="reg63" address="0x3e"/>
+    <node id="reg64" address="0x3f"/>
+  </node>
+</node>
+
