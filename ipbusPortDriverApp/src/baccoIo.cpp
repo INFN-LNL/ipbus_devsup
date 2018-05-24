@@ -79,7 +79,7 @@ void baccoIo::write(unsigned inx, uint32_t address, uint32_t value){
 	        break;
 	}
 }
-uint32_t baccoIo:: read(unsigned inx, uint32_t address){
+uint32_t baccoIo::read(unsigned inx, uint32_t address){
 	switch (inx)
 	{
 	    case 1:
@@ -89,5 +89,20 @@ uint32_t baccoIo:: read(unsigned inx, uint32_t address){
 	    	return slave_2.get(address);
 	        break;
 	}
+	return 0;
+}
+
+uint32_t baccoIo::read(unsigned inx, uint32_t address, uint32_t *data, uint32_t dsize){
+
+	switch (inx)
+	{
+	    case 1:
+	    	return slave_1.get(address, data, dsize);
+	        break;
+	    case 2:
+	    	return slave_2.get(address, data, dsize);
+	        break;
+	}
+	return 0;
 }
 void set(uint32_t address, uint32_t value);

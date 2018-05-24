@@ -72,6 +72,7 @@ public:
 
 	void write(unsigned inx, uint32_t address, uint32_t value);
 	uint32_t read(unsigned inx, uint32_t address);
+	uint32_t read(unsigned inx, uint32_t address, uint32_t *data, uint32_t dsize);
 
 };
 

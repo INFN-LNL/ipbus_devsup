@@ -38,7 +38,9 @@ uint32_t registersIPBUS::get(uint32_t address)
 	}
 	return 0;
 }
-//void registersIPBUS::set(uint32_t address, uint32_t* values, uint32_t block_size)
+
+
+//void registecdcvfrsIPBUS::set(uint32_t address, uint32_t* values, uint32_t block_size)
 //{
 //	const char * c = this->fromAddrtoNode(_base_address + address);
 //	if (c){
@@ -52,21 +54,20 @@ uint32_t registersIPBUS::get(uint32_t address)
 //	return;
 //}
 
-//uint32_t registersIPBUS::get(uint32_t address, uint32_t* block, uint32_t block_size )
-//{
-//	const char * c = this->fromAddrtoNode(_base_address + address);
-//	if (c){
-//		ValVector< uint32_t > v = _hw->getNode(_reg_id).getNode(c).readBlock(block_size);
-//		if(_d) {
-//			_hw->dispatch();
-//			size_t i = 0;
-//			 for (ValVector<uint32_t>::const_iterator lIt = v.begin(); lIt != v.end(); lIt++)
-//			    block[i++] = *lIt;
-//			return i;
-//		}
-//	}
-//	return 0;
-//}
+uint32_t registersIPBUS::get(uint32_t address, uint32_t* block, uint32_t block_size )
+{
+	const char * c = this->fromAddrtoNode(_base_address + address);
+	if (c){
+		ValVector< uint32_t > v = _hw->getNode(_reg_id).getNode(c).readBlock(block_size);
+		if(_d) {
+			_hw->dispatch();
+			size_t i = 0;
+			for (ValVector<uint32_t>::const_iterator lIt = v.begin(); lIt != v.end(); lIt++)
+			    block[i++] = *lIt;
+		}
+	}
+	return 0;
+}
 
 const char * registersIPBUS::fromAddrtoNode(uint32_t id){
 	const char * c = this->isAddressInMap(id);

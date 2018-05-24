@@ -176,7 +176,7 @@ asynStatus ioCmdRegisterArray::io(int dir, void *value, const char *type, size_t
 	//printf("son qua array %i -- %08x\n", _inx, _address);
 	//rfcUsbDevice * dev;
 	//rfcUsbDevice * dev = &ioport->rfc_usb;
-/*	int err;
+	int err;
 	if (nelm == 0)
 		nelm = _nelm;
 	if (nelm == 0){
@@ -188,7 +188,7 @@ asynStatus ioCmdRegisterArray::io(int dir, void *value, const char *type, size_t
 			_nelm = nelm;
 			_lbuf = (uint32_t *)realloc(_lbuf, _nelm*sizeof(uint32_t));
 		}
-		if ((err = dev->read(_inx, _address, _lbuf, nelm)))
+		if ((err = ioport->read(_inx, _address, _lbuf, nelm)))
 			return asynError;
 		if (type == ioc_int32) {
 			epicsInt32 *ivalue  = (epicsInt32*)value;
@@ -203,7 +203,7 @@ asynStatus ioCmdRegisterArray::io(int dir, void *value, const char *type, size_t
 	} else {
 		epicsStdoutPrintf("ioCmdRegisterArray only supports read()\n");
 		return asynError;
-	}*/
+	}
 	return asynSuccess;
 }
 

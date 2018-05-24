@@ -32,6 +32,7 @@ public:
 
 	void set(uint32_t address, uint32_t value);
 	uint32_t get(uint32_t address);
+	uint32_t get(uint32_t address,  uint32_t* block, uint32_t block_size);
 };
 
 extern "C" {
