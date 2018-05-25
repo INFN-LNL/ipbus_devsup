@@ -44,6 +44,22 @@ iocAsyn_LIBS += cactus_uhal_log
 iocAsyn_LIBS += boost_filesystem
 
 
+PROD_IOC = testioc
+testioc_SRCS += test_bacco_ipbus.cpp
+#testioc_SRCS += registerIPBUS_gcu.cpp
+#testioc_SRCS += myUhal.cpp
+#testioc_SRCS += gcu.cpp
+#testioc_SRCS += gcuLibr
+#IPBUS libraries
+#SHRLIB_SEARCH_DIRS += /opt/cactus/lib
+testioc_LIBS += ioc
+testioc_LIBS += cactus_uhal_uhal
+testioc_LIBS += boost_system 
+testioc_LIBS += cactus_uhal_tests 
+testioc_LIBS += cactus_uhal_log
+testioc_LIBS += boost_filesystem
+
+
 include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE

@@ -173,9 +173,7 @@ ioCmdRegisterArray::ioCmdRegisterArray(baccoIo *io, asynUser *asyn, const char *
 
 asynStatus ioCmdRegisterArray::io(int dir, void *value, const char *type, size_t nelm)
 {
-	//printf("son qua array %i -- %08x\n", _inx, _address);
-	//rfcUsbDevice * dev;
-	//rfcUsbDevice * dev = &ioport->rfc_usb;
+
 	int err;
 	if (nelm == 0)
 		nelm = _nelm;

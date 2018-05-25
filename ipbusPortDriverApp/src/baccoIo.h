@@ -2,7 +2,7 @@
 #define IOCSUPPORT_RFCUSBPORTDRIVERAPP_SRC_BACCOIO_H_
 
 #define STAT_REG  "stat_reg"
-#define MAGIC_WORLD 0xabcdfedc
+#define MAGIC_WORD 0xabcdfedc
 
 #include <asynDriver.h>
 #include <uhalWrap.h>

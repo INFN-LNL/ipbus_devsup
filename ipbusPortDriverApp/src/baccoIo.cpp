@@ -11,7 +11,7 @@ ipbusIo::ipbusIo(void *p) :
 int ipbusIo::connect()
 {
 	int ret;
-	if (bacc_stat_reg.get(0) == MAGIC_WORLD)
+	if (bacc_stat_reg.get(0) == MAGIC_WORD)
 		ret = 0;
 	else
         ret = 1;
