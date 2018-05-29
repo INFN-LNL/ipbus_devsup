@@ -70,7 +70,6 @@ int baccoPortRegister(struct baccoPort *p, const char *name, const char *file_p,
 	char *file_path = (char *)mallocMustSucceed(strlen(file_p) + strlen(file) + 1, "");
 	strcpy(file_path, file);
 	strcat(file_path, file_p);
-	printf("file_p  = %s\n label = %s", file_path, label);
 	if (!(p->bacco = get_ioc_ipbus(file_path, label)))
 		return 1;
 	return portRegister(p, name);
@@ -336,7 +335,7 @@ static asynStatus asynDrvUser_create(void *drvPvt,asynUser *pasynUser,
         const char *drvInfo, const char **pptypeName,size_t *psize)
 {
 	struct baccoPort *port = (struct baccoPort *)drvPvt;
-	errlogPrintf("Creating drvUser %p %p '%s'\n", drvPvt, pasynUser, drvInfo);
+	//errlogPrintf("Creating drvUser %p %p '%s'\n", drvPvt, pasynUser, drvInfo);
 	//return asynSuccess;
 	return ioc_get_parameter_link(port->bacco, drvInfo, pasynUser);
 }
