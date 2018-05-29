@@ -1,0 +1,20 @@
+Istruzioni per utilizzare IPBus (lato software) in RARP mode in un host centos7.
+
+1) Installare il file rpm che sta in questa cartella : rarpd-ss981107-42.el6.x86_64.rpm
+
+2) in /etc se non presente creare il file ethers dove si scrive un lista del tipo :
+   mac_address label
+   
+   Ad esempio:
+   01:02:03:04:05:06  iocXYZ
+
+
+4) in /etc modificare il file hosts dove si scrive un lista del tipo :
+   ip_address label
+
+   Ad esempio:
+   192:168:10:10      iocXYZ
+
+5) Avviare rarp in modalità demone dove si deve indicare anche l'interfaccia. Ad esempio
+
+   sudo rarpd -d eth0

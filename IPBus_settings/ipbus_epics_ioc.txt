@@ -1,0 +1,42 @@
+Istruzioni per settare un IOC EPICS utilizzando come interfaccia a basso livello IPBus.
+
+1) Nel file st.cmd aggiungere la riga : baccoCreateIPBusPort IPBUS_PORT_xyz  "path/file_connections.xml" IOC_ab
+   Dove:
+        - baccoCreateIPBusPort : è il commando per creare/connettersi all' hardware. 
+        - IPBUS_PORT_xyz :  è il nome da assegnare alla porta
+        - "path/file_connections.xml" : è una stringa dove viene indicato il path ed il file delle "connessioni"
+                                        da associare al medesimo IOC EPICS basato su IPBus.
+        - IOC_ab : è l' id riferito all' IOC EPICS. E' il tag id nel file xml "file_connections.xml"
+
+2) Nel file "file_connections.xml" (vedi file esempio in questa cartella) si possono modificare i contenuti di alcuni tag:
+        - il tag id si deve modificare in accordo con quanto scritto nel file st.cmd "IOC_ab"
+        - l'indirizzo IP si può modificare. Per associare l'indirizzo IP ad un dato IOC hardware vedere il file rarp_instructions.txt
+        - modificare il valore della port (50001) comporta una modifica firmware. Quindi NON cambiare.
+        - modificare il path di dove si trova il file "file_regs.xml" 
+
+
+                         ###################################################################  
+
+3) Il file  "file_regs.xml" (vedi file esempio in questa cartella) rappresenta la mappatura dei registri nell' FPGA. 
+   Quindi una modifica a tale file in genere comporta una modifica al firmware.
+   Seguiranno istruzioni più dettagliate.
+   Si possono comunque fare delle modifiche senza intervenire sul firmware.
+   1) I nodi principali (id = slave0, slave1, slave2) NON DEVONO essere modificati.
+   2) Il node slave0 e i suoi sotto nodi NON DEVONO MAI essere modificati
+   3) Ad una PV con il campo IN/OUT del tipo field(IN/OUT,  "@asyn(IPBUS_PORT_xyz,0,0)reg(1,0x58,1,3,u)") è associato il <node id="reg_slave1_5" address="0x58"/>
+      - Il nome del tag è univoco all'interno dello stesso nodo principale (id = "slave1"), ma si può modificare;
+      - Al parametro 1 di reg(1,0x58,1,3,u) è associato il nodo principale id = "slave1";
+      - Al parametro 0x58 di reg(1,0x58,1,3,u)  è associato l'address "0x58";
+      ==> Per utlizzare una PV di questo tipo è NECESSARIO sia associato un tag <node ...../>  
+        Se non esiste la si può aggiungere al file xml a patto che il nodo principale id "slaveXY" esista già
+   4) Ad una PV con il campo IN/OUT del tipo field(IN/OUT,  "@asyn(BACCO_IPBUS_PORT,0,0)regArray(2,0x80,40)") è associato <node id="reg_slave2_block_1"  address="0x080" mode="block" size="0x40"/>
+      - Valgono le stesse considerazione del punto precente con alcune differenze:  
+        - Al parametro 2 di regArray(2,0x80,40) è associato il nodo principale id = "slave2";  
+        - Al parametro 0x80 di regArray(2,0x80,40) è associato l'address "0x80";
+        - Al parametro 40 di regArray(2,0x80,40) è associato il size "0x40";
+        - Al parametro regArray è associato il mode "block".
+
+
+############################################################################
+## Per utilizzare IPBus in rarp mode vedere il file rarp_instructions.txt ##
+############################################################################

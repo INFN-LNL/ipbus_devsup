@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<connections>
+ <connection id="IOC" uri="ipbusudp-2.0://10.10.10.10:50001" address_table="file://ioc_regs.xml"/>
+</connections>

@@ -1,0 +1,27 @@
+<node id="TOP">
+  <node id="slave0" address="0x0000" description="stat registers" permission="r" fwinfo="endpoint;width=2" tags="slave0">
+   <node id="reg_slave0_0" address="0x0"/>
+   <node id="reg_slave0_1" address="0x1"/>
+  </node>
+  <node id="slave1" address="0x80"   size= "0x80" description="memory space"  fwinfo="endpoint;width=7" tags="slave1">
+    <node id="reg_slave1_0" address="0x53"/>  
+    <node id="reg_slave1_1" address="0x54">
+    <node id="reg_slave1_2" address="0x55">
+    <node id="reg_slave1_3" address="0x56"/>
+    <node id="reg_slave1_4" address="0x57"/>
+    <node id="reg_slave1_5" address="0x58"/>
+    <node id="reg_slave1_6" address="0x59"/>
+    <node id="reg_slave1_7" address="0x5a"/>
+    <node id="reg_slave1_8" address="0x5b"/>
+  </node>  
+  <node id="slave2" address="0x200"  size="0x200" description="bpm ctrl"     fwinfo="endpoint;width=9" tags="slave2">
+    <node id="reg_slave2_block_0"   address="0x000" mode="block" size="0x40"/>  
+    <node id="reg_slave2_block_1"   address="0x040" mode="block" size="0x40"/>  
+    <node id="reg_slave2_block_2"   address="0x080" mode="block" size="0x40"/>  
+    <node id="reg_slave2_block_3"   address="0x0c0" mode="block" size="0x40"/>  
+    <node id="reg_slave2_block_4"   address="0x100" mode="block" size="0x40"/>  
+    <node id="reg_slave2_block_5"   address="0x140" mode="block" size="0x40"/>  
+    <node id="reg_slave2_block_6"   address="0x180" mode="block" size="0x40"/>  
+    <node id="reg_slave2_block_7"   address="0x1c0" mode="block" size="0x40"/>  
+  </node>
+</node>
