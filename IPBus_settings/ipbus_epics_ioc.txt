@@ -1,14 +1,16 @@
 Istruzioni per settare un IOC EPICS utilizzando come interfaccia a basso livello IPBus.
 
-1) Nel file st.cmd aggiungere la riga : baccoCreateIPBusPort IPBUS_PORT_xyz  "path/file_connections.xml" IOC_ab
+1) Le istruzioni per installare le librerie necessarie al funzione del software basato su IPBus sono scritte nel
+   file "libs_installation.sh"
+
+2) Nel file st.cmd aggiungere la riga : baccoCreateIPBusPort IPBUS_PORT_xyz  "path/file_connections.xml" IOC_ab
    Dove:
         - baccoCreateIPBusPort : è il commando per creare/connettersi all' hardware. 
         - IPBUS_PORT_xyz :  è il nome da assegnare alla porta
         - "path/file_connections.xml" : è una stringa dove viene indicato il path ed il file delle "connessioni"
                                         da associare al medesimo IOC EPICS basato su IPBus.
         - IOC_ab : è l' id riferito all' IOC EPICS. E' il tag id nel file xml "file_connections.xml"
-
-2) Nel file "file_connections.xml" (vedi file esempio in questa cartella) si possono modificare i contenuti di alcuni tag:
+3) Nel file "file_connections.xml" (vedi file esempio in questa cartella) si possono modificare i contenuti di alcuni tag:
         - il tag id si deve modificare in accordo con quanto scritto nel file st.cmd "IOC_ab"
         - l'indirizzo IP si può modificare. Per associare l'indirizzo IP ad un dato IOC hardware vedere il file rarp_instructions.txt
         - modificare il valore della port (50001) comporta una modifica firmware. Quindi NON cambiare.
@@ -17,7 +19,7 @@ Istruzioni per settare un IOC EPICS utilizzando come interfaccia a basso livello
 
                          ###################################################################  
 
-3) Il file  "file_regs.xml" (vedi file esempio in questa cartella) rappresenta la mappatura dei registri nell' FPGA. 
+4) Il file  "file_regs.xml" (vedi file esempio in questa cartella) rappresenta la mappatura dei registri nell' FPGA. 
    Quindi una modifica a tale file in genere comporta una modifica al firmware.
    Seguiranno istruzioni più dettagliate.
    Si possono comunque fare delle modifiche senza intervenire sul firmware.
