@@ -14,7 +14,7 @@
 #include <epicsAssert.h>
 #include <endian.h>
 
-#define MAX_PORTS 10
+#define MAX_PORTS 40
 
 
 struct baccoPort {
@@ -63,24 +63,22 @@ int portRegister(struct baccoPort *p, const char *name)
 	return 0;
 }
 
-//int usbPortRegister(struct baccoPort *p, const char *name, const char *sno)
-//{
-//	if (!(p->bacco = get_usb(p, sno)))
-//		return 1;
-//	return portRegister(p, name);
-//}
 
-int baccoPortRegister(struct baccoPort *p, const char *name, const char *sno)
+int baccoPortRegister(struct baccoPort *p, const char *name, const char *file_p, const char *label)
 {
-	char* _p = "file://ioc_connections.xml";
-	if (!(p->bacco = get_ioc_ipbus(_p, "IOC")))
+	char *file = "file://";
+	char *file_path = (char *)mallocMustSucceed(strlen(file_p) + strlen(file) + 1, "");
+	strcpy(file_path, file);
+	strcat(file_path, file_p);
+	printf("file_p  = %s\n label = %s", file_path, label);
+	if (!(p->bacco = get_ioc_ipbus(file_path, label)))
 		return 1;
 	return portRegister(p, name);
 }
 
-void bacco_create_port(const char *name, const char *sno)
+void bacco_create_port(const char *name, const char *file_p, const char *label)
 {
-	if (nports == MAX_PORTS || baccoPortRegister(&_ports[nports], name, sno)) {
+	if (nports == MAX_PORTS || baccoPortRegister(&_ports[nports], name, file_p, label)) {
 		errlogPrintf("bacco: Cannot more than %d ports\n", MAX_PORTS);
 		return;
 	}

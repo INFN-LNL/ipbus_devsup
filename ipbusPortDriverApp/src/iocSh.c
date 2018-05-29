@@ -5,7 +5,7 @@
 #include "iocAsyn.h"
 
 static void baccoCreateIPBusPortCallFunc(const iocshArgBuf *args) {
-	bacco_create_port(args[0].sval, args[1].sval);
+	bacco_create_port(args[0].sval, args[1].sval, args[2].sval);
 }
 
 //static void createUsbPortCallFunc(const iocshArgBuf *args) {
@@ -23,19 +23,21 @@ static void baccoCreateIPBusPortCallFunc(const iocshArgBuf *args) {
 
 
 static const iocshArg     name = {"name", iocshArgString};
-static const iocshArg     serialNo = {"serial number", iocshArgString};
+static const iocshArg     file_path = {"file path", iocshArgString};
+static const iocshArg     ioc_name = {"ioc_name", iocshArgString};
 
 
 static const iocshArg    *createPortArgs[] =
 {
 	&name, 
-	&serialNo
+	&file_path,
+	&ioc_name
 };
 
 
 static const iocshFuncDef baccoCreateIPBusPortFuncDef =
 {
-	"baccoCreateIPBusPort", 2, createPortArgs
+	"baccoCreateIPBusPort", 3, createPortArgs
 };
 
 //static const iocshFuncDef createUsbPortFuncDef =
