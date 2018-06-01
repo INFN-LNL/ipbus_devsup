@@ -23,6 +23,7 @@ void * get_ioc_ipbus(void *p, const char *serial);
 //int rfc_connect(void *r);
 int bacco_connect(void *r);
 //void rfc_disconnect(void *r);
+int bacco_disconnect(void *r);
 asynStatus bacco_io(void *obj, asynUser *pasynUser, const char *type, int dir,
 						void *value, size_t nelm);
 

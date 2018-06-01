@@ -10,12 +10,28 @@ ipbusIo::ipbusIo(void *p) :
 
 int ipbusIo::connect()
 {
-	int ret;
-	if (bacc_stat_reg.get(0) == MAGIC_WORD)
-		ret = 0;
-	else
-        ret = 1;
-	return ret;
+	int err;	
+	try {
+		if (bacc_stat_reg.get(0) == MAGIC_WORD)
+			err = 0; // asynSuccess
+		else
+       		err = 3; // asynError
+    }catch (uhal::exception::UdpTimeout e){
+    	err = 4;     // asynDisconnected
+    }
+	return err;
+}
+
+int ipbusIo::disconnect()
+{
+	int err = 0;	
+	try {
+		bacc_stat_reg.get(0); 
+		err = 0;     // asynSuccess
+    }catch (uhal::exception::UdpTimeout e){
+    	err = 4;     // asynDisconnected
+    }
+	return err;
 }
 
 baccoIo::baccoIo(void *p, const char *sl1, const char *sl2) :
@@ -31,6 +47,10 @@ int baccoIo::connect()
 	return ipbusIo::connect();
 }
 
+int baccoIo::disconnect()
+{
+	return ipbusIo::disconnect();
+}
 //int usbIo::disconnect()
 //{
 //	if (!asyn_port || _dummy)
@@ -105,4 +125,5 @@ uint32_t baccoIo::read(unsigned inx, uint32_t address, uint32_t *data, uint32_t 
 	}
 	return 0;
 }
+
 void set(uint32_t address, uint32_t value);

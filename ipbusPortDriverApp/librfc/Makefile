@@ -44,10 +44,20 @@ INC += uhalWrap.h
 SHRLIB_SEARCH_DIRS += /opt/cactus/lib
 
 ioc_LIBS += cactus_uhal_uhal
-ioc_LIBS += boost_system 
-ioc_LIBS += cactus_uhal_tests 
+ioc_LIBS += cactus_uhal_grammars
 ioc_LIBS += cactus_uhal_log
+ioc_LIBS += boost_thread
 ioc_LIBS += boost_filesystem
+ioc_LIBS += boost_thread
+ioc_LIBS += boost_program_options
+ioc_LIBS += boost_unit_test_framework
+#ioc_LIBS += pthread
+
+ioc_LIBS += cactus_uhal_tests 
+ioc_LIBS += boost_chrono 
+ioc_LIBS += boost_regex 
+ioc_LIBS += boost_system 
+#ioc_LIBS += pugixml 
 
 
 include $(TOP)/configure/RULES

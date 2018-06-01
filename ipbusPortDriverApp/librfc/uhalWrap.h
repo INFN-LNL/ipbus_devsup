@@ -4,35 +4,25 @@
 #ifdef __cplusplus
 
 #include <uhal/uhal.hpp>
-//#include <uhal/tests/tools.hpp>
+#include <uhal/log/log.hpp>
+//#include "uhal/tests/tools.hpp"
+#include "uhal/ProtocolUDP.hpp"
+
 #include <boost/filesystem.hpp>
+//#include <boost/test/unit_test.hpp>
 
 using namespace uhal;
 
 
-class conManWr {
-	ConnectionManager* _con;
-public:
-	conManWr(char *con);
-	ConnectionManager* getConn() {return _con;};
-};
-
 class hwIntWr : public HwInterface{
 public :
-	hwIntWr(const char * c, const char * ch) : HwInterface((new ConnectionManager(c))->getDevice(ch)) {};
+	hwIntWr(const char * c, const char * ch) : HwInterface((new ConnectionManager(c))->getDevice(ch)) {uhal::disableLogging();};
 };
 
-//class hwIntWr : public HwInterface{
-//public :
-//	hwIntWr(ConnectionManager * c, const char * ch) : HwInterface(c->getDevice(ch)) {};
-//};
+
 extern "C" {
 
 #endif
-
-typedef struct conManWr conManWr;
-conManWr *newconManWr(void *c);
-
 typedef struct hwIntWr hwIntWr;
 hwIntWr *newhwIntWr(void *c, void * ch);
 

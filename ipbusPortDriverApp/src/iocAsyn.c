@@ -106,26 +106,38 @@ static asynStatus asyn_common_connect(void *drvPvt, asynUser *pasynUser)
 	struct baccoPort *port = (struct baccoPort*)drvPvt;
 	errlogSevPrintf(errlogInfo, "Connecting port '%s' (%p)...",
 					port->name, pasynUser);
-
-	if (!bacco_connect(port->bacco)) {
+    asynStatus err = bacco_connect(port->bacco); 
+    if (err == 0){ // asynSuccess
 		pasynManager->exceptionConnect(pasynUser);	
 		errlogSevPrintf(errlogInfo, "connected!\n");
 		return asynSuccess;
+	} else if (err == 4){ // asynDisconnected
+		pasynManager->exceptionDisconnect(pasynUser);
+		errlogSevPrintf(errlogInfo, "disconnected!\n");		
+		return asynDisconnected;
+	} else {
+		errlogSevPrintf(errlogInfo, "NOT connected!\n");
+		if (pasynUser)
+			strncpy(pasynUser->errorMessage, "Cannot connect", pasynUser->errorMessageSize);
+		return asynError;
 	}
-	errlogSevPrintf(errlogInfo, "NOT connected!\n");
-	if (pasynUser)
-		strncpy(pasynUser->errorMessage, "Cannot connect", pasynUser->errorMessageSize);
-	return asynError;
 
 }
 
 static asynStatus asyn_common_disconnect(void *drvPvt, asynUser *pasynUser)
 {
 	struct baccoPort *port = (struct baccoPort*)drvPvt;
-//	errlogSevPrintf(errlogInfo, "Disconnecting port '%s'\n", port->name);
-//	rfc_disconnect(port->bacco);
-//	pasynManager->exceptionDisconnect(pasynUser);
-	return asynSuccess;
+	errlogSevPrintf(errlogInfo, "Disconnecting port '%s'\n", port->name);
+	asynStatus err = bacco_disconnect(port->bacco);
+	if (err){
+		pasynManager->exceptionDisconnect(pasynUser);
+		errlogSevPrintf(errlogInfo, "disconnected!\n");		
+		return asynDisconnected;
+	}else{
+		errlogSevPrintf(errlogInfo, "ri-connected!\n");	
+		return asynSuccess;
+	}
+	
 }
 
 static asynCommon bacco_common_itf = {
@@ -209,6 +221,7 @@ static asynStatus asynInt32_read(void *drvPvt, asynUser *pasynUser,
 	return bacco_io(port->bacco, pasynUser, ioc_int32, 1, value, 1);
 }
 
+
 /*
 static asynStatus asynInt32_getBounds(void *drvPvt, asynUser *pasynUser,
                            epicsInt32 *low, epicsInt32 *high)
@@ -227,73 +240,65 @@ static asynInt32 bacco_int32_itf = {
 //	.getBounds = asynInt32_getBounds
 };
 
-/** Fires an interrupt whenever int32 data is available from lower level layers.
-  * Lower level layers doesn't know about asyn clients waiting for interrupts,
-  * and this level doesn't know anything about lower level data management
-  * (USB, IPBus ecc...).
-  * This function is supposed to be called from lower level SW layer to inform
-  * the port driver about new int32 data, it retrieve the users waiting for data
-  * and ask to low level layer if the user data match the incoming one.
-  *
-  * @param prt : low level port object (opaque for this module)
-  * @param rxd : low level data object (opaque for this layer)
-  */
+// /** Fires an interrupt whenever int32 data is available from lower level layers.
+//   * Lower level layers doesn't know about asyn clients waiting for interrupts,
+//   * and this level doesn't know anything about lower level data management
+//   * (USB, IPBus ecc...).
+//   * This function is supposed to be called from lower level SW layer to inform
+//   * the port driver about new int32 data, it retrieve the users waiting for data
+//   * and ask to low level layer if the user data match the incoming one.
+//   *
+//   * @param prt : low level port object (opaque for this module)
+//   * @param rxd : low level data object (opaque for this layer)
+//   */
 
-static void int32InterruptFire(struct baccoPort *port, const void *rxd)
-{
-	ELLLIST *pclientList;
-	interruptNode *pnode;
-	asynInt32Interrupt *pinterrupt;
-	//uint32_t data;
+// static void int32InterruptFire(struct baccoPort *port, const void *rxd)
+// {
+// 	ELLLIST *pclientList;
+// 	interruptNode *pnode;
+// 	asynInt32Interrupt *pinterrupt;
+// 	//uint32_t data;
 
-	//TODO
-	return;
+// 	//TODO
+// 	return;
 
-//	pasynManager->interruptStart(port->pasynInt32Pvt, &pclientList);
-//    pnode = (interruptNode *)ellFirst(pclientList);
-//    while (pnode) {
-//        pinterrupt = pnode->drvPvt;
-//		if (rfc_resource_match_int32(pinterrupt->pasynUser, rxd, &data))
-//			pinterrupt->callback(pinterrupt->userPvt, pinterrupt->pasynUser,
-//							data);
-//        pnode = (interruptNode *)ellNext(&pnode->node);
-//    }
-//    pasynManager->interruptEnd(port->pasynInt32Pvt);
-}
+// //	pasynManager->interruptStart(port->pasynInt32Pvt, &pclientList);
+// //    pnode = (interruptNode *)ellFirst(pclientList);
+// //    while (pnode) {
+// //        pinterrupt = pnode->drvPvt;
+// //		if (rfc_resource_match_int32(pinterrupt->pasynUser, rxd, &data))
+// //			pinterrupt->callback(pinterrupt->userPvt, pinterrupt->pasynUser,
+// //							data);
+// //        pnode = (interruptNode *)ellNext(&pnode->node);
+// //    }
+// //    pasynManager->interruptEnd(port->pasynInt32Pvt);
+// }
 
-/************************* INT32ARRAY INTERFACE *******************************/
+// /************************* INT32ARRAY INTERFACE *******************************/
 
-static void int32ArrayInterruptFire(struct baccoPort *port, const void *rxd);
-static asynStatus int32ArrayRead(void *drvPvt, asynUser *pasynUser,
-                       epicsInt32 *value, size_t nelements, size_t *nIn);
+// static void int32ArrayInterruptFire(struct baccoPort *port, const void *rxd)
+// {
+// 	ELLLIST *pclientList;
+// 	interruptNode *pnode;
+// 	asynInt32ArrayInterrupt *pinterrupt;
+// 	epicsInt32 *data;
+// 	size_t dlen;
 
-static asynInt32Array bacco_int32Array_itf = {
-	.read = int32ArrayRead
-};
+// 	//TODO
+// 	return;
 
-static void int32ArrayInterruptFire(struct baccoPort *port, const void *rxd)
-{
-	ELLLIST *pclientList;
-	interruptNode *pnode;
-	asynInt32ArrayInterrupt *pinterrupt;
-	epicsInt32 *data;
-	size_t dlen;
-
-	//TODO
-	return;
-
-//	pasynManager->interruptStart(port->pasynInt32ArrayPvt, &pclientList);
-//    pnode = (interruptNode *)ellFirst(pclientList);
-//    while (pnode) {
-//        pinterrupt = pnode->drvPvt;
-//		if (rfc_resource_match_int32array(pinterrupt->pasynUser, rxd, &data, &dlen)) {
-//			pinterrupt->callback(pinterrupt->userPvt, pinterrupt->pasynUser,
-//							data, dlen);
-//		}
-//        pnode = (interruptNode *)ellNext(&pnode->node);
-//    }
-//    pasynManager->interruptEnd(port->pasynInt32ArrayPvt);
-}
+// //	pasynManager->interruptStart(port->pasynInt32ArrayPvt, &pclientList);
+// //    pnode = (interruptNode *)ellFirst(pclientList);
+// //    while (pnode) {
+// //        pinterrupt = pnode->drvPvt;
+// //		if (rfc_resource_match_int32array(pinterrupt->pasynUser, rxd, &data, &dlen)) {
+// //			pinterrupt->callback(pinterrupt->userPvt, pinterrupt->pasynUser,
+// //							data, dlen);
+// //		}
+// //        pnode = (interruptNode *)ellNext(&pnode->node);
+// //    }
+// //    pasynManager->interruptEnd(port->pasynInt32ArrayPvt);
+// }
 
 static asynStatus int32ArrayRead(void *drvPvt, asynUser *pasynUser,
                        epicsInt32 *value, size_t nelements, size_t *nIn)
@@ -303,8 +308,22 @@ static asynStatus int32ArrayRead(void *drvPvt, asynUser *pasynUser,
 	if ((err = bacco_io(port->bacco, pasynUser, ioc_int32, 1, value, nelements)))
 			return err;
 	*nIn = nelements;
-	return asynSuccess;
+	return err;
+	/////////////////////////
+	/*int i;
+	for(i = 0; i < nelements; i++){
+		if (i%0x4 > 0)
+		    printf("\t mem[%03x] = %08x", i, value[i]);
+		else
+			printf("\n mem[%03x] = %08x", i, value[i]);
+	}
+	printf("\n"); */
+	////////////////////////
 }
+
+static asynInt32Array bacco_int32Array_itf = {
+	.read = int32ArrayRead
+};
 
 /************************* FLOAT64 INTERFACE **********************************/
 
@@ -370,14 +389,14 @@ static asynDrvUser bacco_drvUser_itf = {
  *
  */
 
-void interruptFire(void *prt, const void *rxd)
-{
-	struct baccoPort *port = (struct baccoPort*)prt;
-	if (!port || !rxd) return;
-	int32InterruptFire(port, rxd);
-	int32ArrayInterruptFire(port, rxd);
-	uint32DigitalInterruptFire(port, rxd);
-}
+// void interruptFire(void *prt, const void *rxd)
+// {
+// 	struct baccoPort *port = (struct baccoPort*)prt;
+// 	if (!port || !rxd) return;
+// 	int32InterruptFire(port, rxd);
+// 	int32ArrayInterruptFire(port, rxd);
+// 	uint32DigitalInterruptFire(port, rxd);
+// }
 
 
 

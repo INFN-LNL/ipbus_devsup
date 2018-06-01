@@ -38,11 +38,20 @@ iocAsyn_LIBS += ioc
 SHRLIB_SEARCH_DIRS += /opt/cactus/lib
 
 iocAsyn_LIBS += cactus_uhal_uhal
-iocAsyn_LIBS += boost_system 
-iocAsyn_LIBS += cactus_uhal_tests 
+iocAsyn_LIBS += cactus_uhal_grammars
 iocAsyn_LIBS += cactus_uhal_log
+iocAsyn_LIBS += boost_thread
 iocAsyn_LIBS += boost_filesystem
+iocAsyn_LIBS += boost_thread
+iocAsyn_LIBS += boost_program_options
+iocAsyn_LIBS += boost_unit_test_framework
+#iocAsyn_LIBS += pthread
 
+iocAsyn_LIBS += cactus_uhal_tests 
+iocAsyn_LIBS += boost_chrono 
+iocAsyn_LIBS += boost_regex 
+iocAsyn_LIBS += boost_system 
+#iocAsyn_LIBS += pugixml 
 
 PROD_IOC = testioc
 testioc_SRCS += test_bacco_ipbus.cpp
@@ -54,11 +63,36 @@ testioc_SRCS += test_bacco_ipbus.cpp
 #SHRLIB_SEARCH_DIRS += /opt/cactus/lib
 testioc_LIBS += ioc
 testioc_LIBS += cactus_uhal_uhal
-testioc_LIBS += boost_system 
-testioc_LIBS += cactus_uhal_tests 
+testioc_LIBS += cactus_uhal_grammars
 testioc_LIBS += cactus_uhal_log
+testioc_LIBS += boost_thread
 testioc_LIBS += boost_filesystem
+testioc_LIBS += boost_thread
+testioc_LIBS += boost_program_options
+testioc_LIBS += boost_unit_test_framework
 
+testioc_LIBS += cactus_uhal_tests 
+testioc_LIBS += boost_chrono 
+testioc_LIBS += boost_regex 
+testioc_LIBS += boost_system 
+#testioc_LIBS += pugixml 
+
+# PROD_IOC = testboost
+# testboost_SRCS += test_boost.cpp
+# testboost_LIBS += cactus_uhal_uhal
+# testboost_LIBS += cactus_uhal_grammars
+# testboost_LIBS += cactus_uhal_log
+# testboost_LIBS += boost_thread
+# testboost_LIBS += boost_filesystem
+# testboost_LIBS += boost_thread
+# testboost_LIBS += boost_program_options
+# testboost_LIBS += boost_unit_test_framework
+# #testioc_LIBS += pthread
+
+# testboost_LIBS += cactus_uhal_tests 
+# testboost_LIBS += boost_chrono 
+# testboost_LIBS += boost_regex 
+# testboost_LIBS += boost_system
 
 include $(TOP)/configure/RULES
 #----------------------------------------

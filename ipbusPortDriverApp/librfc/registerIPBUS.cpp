@@ -74,7 +74,7 @@ const char * registersIPBUS::fromAddrtoNode(uint32_t id){
 	if (!c)
 		c = this->instertInMap(id);
 	if (!c)
-		printf("Address is not valid\n");
+		printf("Address [%08x] is not valid\n", id);
 	return c;
 }
 

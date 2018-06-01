@@ -51,6 +51,7 @@ public:
 	ipbusIo(void *p);
 	virtual ~ipbusIo(){};
 	virtual int connect();
+	virtual int disconnect();
 	ioCmd *factoryIoCmd(const char *str, asynUser *pasynUser);
 
 };
@@ -68,6 +69,7 @@ public:
 	baccoIo(void *p, const char *sl1 = "sl1", const char *sl2 = "sl2");
 	virtual ~baccoIo(){};
 	virtual int connect();
+	virtual int disconnect();
 	ioCmd *factoryIoCmd(const char *str, asynUser *pasynUser);
 
 	void write(unsigned inx, uint32_t address, uint32_t value);

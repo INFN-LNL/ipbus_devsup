@@ -50,13 +50,14 @@ extern "C" int bacco_connect(void *r)
  *  by asyn Port driver.
  */
 
-//extern "C" void rfc_disconnect(void *r)
-//{
-//	rfcIo *rfc = static_cast<rfcIo*>(r);
-//	if (rfc)
-//		rfc->disconnect();
-//}
-//
+extern "C" int bacco_disconnect(void *r)
+{
+	baccoIo *ioc = static_cast<baccoIo*>(r);
+	if (!ioc)
+		return 1;
+	return ioc->disconnect();
+}
+
 //extern "C" void interruptFire(void *prt, const void *rxd);
 //
 ///** Callback function called whenever a R/W request to the HW has been completed
@@ -112,12 +113,18 @@ extern "C" asynStatus bacco_io(void *obj, asynUser *pasynUser, const char *type,
 								int dir, void *value, size_t nelm)
 {
 	ioCmd *cmd = getIoCmd(pasynUser);
+	asynStatus err;
 	if (!cmd) {
 		snprintf(pasynUser->errorMessage, pasynUser->errorMessageSize,
 			"PV not linked to any register");
-			return asynDisabled;
+			err =  asynDisabled;
 	}
-	return cmd->io(dir, value, type, nelm);
+	try {
+	err = cmd->io(dir, value, type, nelm);
+    } catch (uhal::exception::UdpTimeout e){
+    	err = asynDisconnected;
+    }
+    return err;
 }
 
 

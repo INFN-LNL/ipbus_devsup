@@ -72,7 +72,6 @@ asynStatus regIoCmd::io(int dir, void *value, const char *type, size_t nelm)
 	uint32_t reg, oreg;
 	uint32_t msk = width < 32 ? (1<<width) - 1 : 0xffffffff;
 	if (dir) {
-
 		reg = ioport->read(_inx, _address);
 		reg >>= shift;
 		reg &= msk;
@@ -214,6 +213,7 @@ ioCmd * ioCmdFactory(const char *type, const char *params, baccoIo *ioport, asyn
 		cmd = new regIoCmd(ioport, pasynUser, params);
 	if(strcmp(type, "regArray") == 0)
 		cmd = new ioCmdRegisterArray(ioport, pasynUser, params);
+
 	return cmd;
 }
 
