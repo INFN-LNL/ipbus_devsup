@@ -37,44 +37,44 @@ iocAsyn_LIBS += ioc
 
 SHRLIB_SEARCH_DIRS += /opt/cactus/lib
 
-iocAsyn_LIBS += cactus_uhal_uhal
-iocAsyn_LIBS += cactus_uhal_grammars
-iocAsyn_LIBS += cactus_uhal_log
-iocAsyn_LIBS += boost_thread
-iocAsyn_LIBS += boost_filesystem
-iocAsyn_LIBS += boost_thread
-iocAsyn_LIBS += boost_program_options
-iocAsyn_LIBS += boost_unit_test_framework
+PROD_SYS_LIBS += cactus_uhal_uhal
+PROD_SYS_LIBS += cactus_uhal_grammars
+PROD_SYS_LIBS += cactus_uhal_log
+#iocAsyn_LIBS += boost_thread
+#iocAsyn_LIBS += boost_thread
+PROD_SYS_LIBS += boost_filesystem
+PROD_SYS_LIBS += boost_program_options
+PROD_SYS_LIBS += boost_unit_test_framework
 #iocAsyn_LIBS += pthread
 
-iocAsyn_LIBS += cactus_uhal_tests 
-iocAsyn_LIBS += boost_chrono 
-iocAsyn_LIBS += boost_regex 
-iocAsyn_LIBS += boost_system 
+PROD_SYS_LIBS += cactus_uhal_tests 
+PROD_SYS_LIBS += boost_chrono 
+PROD_SYS_LIBS += boost_regex 
+PROD_SYS_LIBS += boost_system 
 #iocAsyn_LIBS += pugixml 
 
-PROD_IOC = testioc
-testioc_SRCS += test_bacco_ipbus.cpp
+#PROD_IOC = testioc
+#testioc_SRCS += test_bacco_ipbus.cpp
 #testioc_SRCS += registerIPBUS_gcu.cpp
 #testioc_SRCS += myUhal.cpp
 #testioc_SRCS += gcu.cpp
 #testioc_SRCS += gcuLibr
 #IPBUS libraries
 #SHRLIB_SEARCH_DIRS += /opt/cactus/lib
-testioc_LIBS += ioc
-testioc_LIBS += cactus_uhal_uhal
-testioc_LIBS += cactus_uhal_grammars
-testioc_LIBS += cactus_uhal_log
-testioc_LIBS += boost_thread
-testioc_LIBS += boost_filesystem
-testioc_LIBS += boost_thread
-testioc_LIBS += boost_program_options
-testioc_LIBS += boost_unit_test_framework
+#testioc_LIBS += ioc
+#testioc_LIBS += cactus_uhal_uhal
+#testioc_LIBS += cactus_uhal_grammars
+#testioc_LIBS += cactus_uhal_log
+#testioc_LIBS += boost_thread
+#testioc_LIBS += boost_filesystem
+#testioc_LIBS += boost_thread
+#testioc_LIBS += boost_program_options
+#testioc_LIBS += boost_unit_test_framework
 
-testioc_LIBS += cactus_uhal_tests 
-testioc_LIBS += boost_chrono 
-testioc_LIBS += boost_regex 
-testioc_LIBS += boost_system 
+#testioc_LIBS += cactus_uhal_tests 
+#testioc_LIBS += boost_chrono 
+#testioc_LIBS += boost_regex 
+#testioc_LIBS += boost_system 
 #testioc_LIBS += pugixml 
 
 # PROD_IOC = testboost
