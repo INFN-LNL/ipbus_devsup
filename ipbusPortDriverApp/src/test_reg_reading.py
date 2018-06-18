@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
     #memport.getNode(FMC_CTRL_REG).write(0x00); hw.dispatch()
     reg = hw.getNode("sl1").getNode("FMC_CTRL_REG").read(); hw.dispatch()
-    print "reg = ", reg
+    print "reg = ", reg 
 
     
     print ("++++++++++++++++++++++++++++++++++++++++++++++\n")

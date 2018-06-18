@@ -60,5 +60,4 @@ ioc_SYS_LIBS += boost_regex
 ioc_SYS_LIBS += boost_system 
 #ioc_SYS_LIBS += pugixml 
 
-
 include $(TOP)/configure/RULES
