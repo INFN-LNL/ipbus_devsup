@@ -25,6 +25,7 @@ DBD += iocAsyn.dbd
 
 
 # specify all source files to be compiled and added to the library
+
 iocAsyn_SRCS += iocSh.c
 iocAsyn_SRCS += iocAsyn.c
 iocAsyn_SRCS += baccoObj.cpp
@@ -35,64 +36,20 @@ iocAsyn_SRCS += filter.c
 iocAsyn_LIBS += $(EPICS_BASE_IOC_LIBS)
 iocAsyn_LIBS += ioc
 
-SHRLIB_SEARCH_DIRS += /opt/cactus/lib
+USR_LDFLAGS += -L/opt/cactus/lib
+USR_LDFLAGS += -Wl,-rpath,/opt/cactus/lib
+iocAsyn_SYS_LIBS += cactus_uhal_grammars
+iocAsyn_SYS_LIBS += cactus_uhal_log
+iocAsyn_SYS_LIBS += cactus_uhal_uhal
+iocAsyn_SYS_LIBS += cactus_uhal_tests 
+iocAsyn_SYS_LIBS += cactus_extern_pugixml 
 
-iocAsyn_LIBS += cactus_uhal_uhal
-iocAsyn_LIBS += cactus_uhal_grammars
-iocAsyn_LIBS += cactus_uhal_log
-iocAsyn_LIBS += boost_thread
-iocAsyn_LIBS += boost_filesystem
-iocAsyn_LIBS += boost_thread
-iocAsyn_LIBS += boost_program_options
-iocAsyn_LIBS += boost_unit_test_framework
-#iocAsyn_LIBS += pthread
-
-iocAsyn_LIBS += cactus_uhal_tests 
-iocAsyn_LIBS += boost_chrono 
-iocAsyn_LIBS += boost_regex 
-iocAsyn_LIBS += boost_system 
-#iocAsyn_LIBS += pugixml 
-
-PROD_IOC = testioc
-testioc_SRCS += test_bacco_ipbus.cpp
-#testioc_SRCS += registerIPBUS_gcu.cpp
-#testioc_SRCS += myUhal.cpp
-#testioc_SRCS += gcu.cpp
-#testioc_SRCS += gcuLibr
-#IPBUS libraries
-#SHRLIB_SEARCH_DIRS += /opt/cactus/lib
-testioc_LIBS += ioc
-testioc_LIBS += cactus_uhal_uhal
-testioc_LIBS += cactus_uhal_grammars
-testioc_LIBS += cactus_uhal_log
-testioc_LIBS += boost_thread
-testioc_LIBS += boost_filesystem
-testioc_LIBS += boost_thread
-testioc_LIBS += boost_program_options
-testioc_LIBS += boost_unit_test_framework
-
-testioc_LIBS += cactus_uhal_tests 
-testioc_LIBS += boost_chrono 
-testioc_LIBS += boost_regex 
-testioc_LIBS += boost_system 
-#testioc_LIBS += pugixml 
-
-# PROD_IOC = testboost
-# testboost_SRCS += test_boost.cpp
-# testboost_LIBS += cactus_uhal_uhal
-# testboost_LIBS += cactus_uhal_grammars
-# testboost_LIBS += cactus_uhal_log
-# testboost_LIBS += boost_thread
-# testboost_LIBS += boost_filesystem
-# testboost_LIBS += boost_thread
-# testboost_LIBS += boost_program_options
-# testboost_LIBS += boost_unit_test_framework
-# #testioc_LIBS += pthread
-
-# testboost_LIBS += cactus_uhal_tests 
-# testboost_LIBS += boost_chrono 
-# testboost_LIBS += boost_regex 
-# testboost_LIBS += boost_system
+PROD_IOC = testreading
+testreading_SRCS += test_reg_reading.cpp
+testreading_LIBS += iocAsyn
+testreading_LIBS += asyn
+testreading_SYS_LIBS += cactus_uhal_uhal
+testreading_SYS_LIBS += boost_system 
 
 include $(TOP)/configure/RULES
 #----------------------------------------

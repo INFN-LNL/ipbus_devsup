@@ -41,23 +41,24 @@ INC += registerIPBUS.h
 INC += uhalWrap.h
 
 
-SHRLIB_SEARCH_DIRS += /opt/cactus/lib
+USR_LDFLAGS += -L/opt/cactus/lib
+USR_LDFLAGS += -Wl,-rpath,/opt/cactus/lib
 
-ioc_LIBS += cactus_uhal_uhal
-ioc_LIBS += cactus_uhal_grammars
-ioc_LIBS += cactus_uhal_log
-ioc_LIBS += boost_thread
-ioc_LIBS += boost_filesystem
-ioc_LIBS += boost_thread
-ioc_LIBS += boost_program_options
-ioc_LIBS += boost_unit_test_framework
-#ioc_LIBS += pthread
+ioc_SYS_LIBS += cactus_uhal_uhal
+ioc_SYS_LIBS += cactus_uhal_grammars
+ioc_SYS_LIBS += cactus_uhal_log
+ioc_SYS_LIBS += boost_thread
+ioc_SYS_LIBS += boost_filesystem
+ioc_SYS_LIBS += boost_thread
+ioc_SYS_LIBS += boost_program_options
+ioc_SYS_LIBS += boost_unit_test_framework
+#ioc_SYS_LIBS += pthread
 
-ioc_LIBS += cactus_uhal_tests 
-ioc_LIBS += boost_chrono 
-ioc_LIBS += boost_regex 
-ioc_LIBS += boost_system 
-#ioc_LIBS += pugixml 
+ioc_SYS_LIBS += cactus_uhal_tests 
+ioc_SYS_LIBS += boost_chrono 
+ioc_SYS_LIBS += boost_regex 
+ioc_SYS_LIBS += boost_system 
+#ioc_SYS_LIBS += pugixml 
 
 
 include $(TOP)/configure/RULES
