@@ -109,7 +109,7 @@ static asynStatus asyn_common_connect(void *drvPvt, asynUser *pasynUser)
     asynStatus err = bacco_connect(port->bacco); 
     if (err == 0){ // asynSuccess
 		pasynManager->exceptionConnect(pasynUser);	
-		errlogSevPrintf(errlogInfo, "connected!\n");
+		errlogSevPrintf(errlogInfo, "%s connected!\n", port->name);
 		return asynSuccess;
 	} else if (err == 4){ // asynDisconnected
 		pasynManager->exceptionDisconnect(pasynUser);
