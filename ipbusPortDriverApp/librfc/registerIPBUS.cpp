@@ -71,9 +71,9 @@ uint32_t registersIPBUS::get(uint32_t address, uint32_t* block, uint32_t block_s
 
 std::string registersIPBUS::fromAddrtoNode(uint32_t id){
 	std::string s = this->isAddressInMap(id);
-	if (!s.empty())
+	if (s.empty())
 		s = this->instertInMap(id);
-	if (!s.empty())
+	if (s.empty())
 		printf("Address [%08x] is not valid\n", id);
 	return s;
 }
@@ -82,13 +82,13 @@ std::string registersIPBUS::isAddressInMap(uint32_t id){
 
 
 	if (_m.empty())
-		return "";
+		return std::string("");
 
 	mT::iterator  it= _m.find(id);
 	if(it != _m.end())
 		return it->second;
 
-	return "";
+	return std::string("");
 
 }
 
