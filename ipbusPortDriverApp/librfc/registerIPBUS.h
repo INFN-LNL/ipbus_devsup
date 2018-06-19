@@ -1,8 +1,7 @@
 /*
  * register32RFC.h
  *
- *  Created on: Jun 26, 2015
- *      Author: damiano
+ *      Author: stefano
  */
 
 #ifndef REGISTERIPBUS_H_
@@ -11,6 +10,7 @@
 #ifdef __cplusplus
 
 #include <map>
+#include <string>
 #include "uhalWrap.h"
 #include "register32.h"
 
@@ -21,12 +21,12 @@ class registersIPBUS: public registers32  {
 	const char  *_reg_id;
 	uint32_t    _base_address;
 	uint8_t _d; //if 0 you dont't do the dispatch else you do it. Default = 1
-	typedef std::map<uint32_t, const char *>  mT;
+	typedef std::map<uint32_t, std::string>  mT;
 	mT _m;   // key = address  -  value = node/reg
 
-	const char * fromAddrtoNode(uint32_t id);
-	const char * isAddressInMap(uint32_t id);
-	const char * instertInMap(uint32_t id);
+	std::string fromAddrtoNode(uint32_t id);
+	std::string isAddressInMap(uint32_t id);
+	std::string instertInMap(uint32_t id);
 public:
 	registersIPBUS(hwIntWr *hw, const char *reg_id, uint8_t d = 1);
 

@@ -2,7 +2,7 @@
  * registersIPBUS.cpp
  *
  *  Created on: Jun 26, 2015
- *      Author:
+ *      Author: stefano
  */
 
 #include <registerIPBUS.h>
@@ -15,10 +15,10 @@ registersIPBUS::registersIPBUS(hwIntWr *hw, const char *reg_id, uint8_t d):
 
 void registersIPBUS::set(uint32_t address, uint32_t value)
 {
-	const char * c = this->fromAddrtoNode(_base_address + address);
-	//printf("set %s  [%08x]-- > %08x\n", c, _base_address + address,  value);
-	if (c){
-		_hw->getNode(_reg_id).getNode(c).write(value);
+	std::string s = this->fromAddrtoNode(_base_address + address);
+	//printf("set %s  [%08x]-- > %08x\n", s, _base_address + address,  value);
+	if (!s.empty()){
+		_hw->getNode(_reg_id).getNode(s).write(value);
 		if(_d) _hw->dispatch();
 	}
 	return;
@@ -26,9 +26,9 @@ void registersIPBUS::set(uint32_t address, uint32_t value)
 
 uint32_t registersIPBUS::get(uint32_t address)
 {
-	const char * c = this->fromAddrtoNode(_base_address + address);
-	if (c){
-		ValWord< uint32_t > v = _hw->getNode(_reg_id).getNode(c).read();
+	std::string s = this->fromAddrtoNode(_base_address + address);
+	if (!s.empty()){
+		ValWord< uint32_t > v = _hw->getNode(_reg_id).getNode(s).read();
 		if(_d) {
 			_hw->dispatch();
 			//printf("get %s  [%08x]-- > %08x\n", c, _base_address + address,  v.value());
@@ -56,9 +56,9 @@ uint32_t registersIPBUS::get(uint32_t address)
 
 uint32_t registersIPBUS::get(uint32_t address, uint32_t* block, uint32_t block_size )
 {
-	const char * c = this->fromAddrtoNode(_base_address + address);
-	if (c){
-		ValVector< uint32_t > v = _hw->getNode(_reg_id).getNode(c).readBlock(block_size);
+	std::string s = this->fromAddrtoNode(_base_address + address);
+	if (!s.empty()){
+		ValVector< uint32_t > v = _hw->getNode(_reg_id).getNode(s).readBlock(block_size);
 		if(_d) {
 			_hw->dispatch();
 			size_t i = 0;
@@ -69,39 +69,40 @@ uint32_t registersIPBUS::get(uint32_t address, uint32_t* block, uint32_t block_s
 	return 0;
 }
 
-const char * registersIPBUS::fromAddrtoNode(uint32_t id){
-	const char * c = this->isAddressInMap(id);
-	if (!c)
-		c = this->instertInMap(id);
-	if (!c)
+std::string registersIPBUS::fromAddrtoNode(uint32_t id){
+	std::string s = this->isAddressInMap(id);
+	if (!s.empty())
+		s = this->instertInMap(id);
+	if (!s.empty())
 		printf("Address [%08x] is not valid\n", id);
-	return c;
+	return s;
 }
 
-const char * registersIPBUS::isAddressInMap(uint32_t id){
+std::string registersIPBUS::isAddressInMap(uint32_t id){
+
 
 	if (_m.empty())
-		return NULL;
+		return "";
 
 	mT::iterator  it= _m.find(id);
 	if(it != _m.end())
 		return it->second;
 
-	return NULL;
+	return "";
 
 }
 
-const char *  registersIPBUS::instertInMap(uint32_t id){
+std::string  registersIPBUS::instertInMap(uint32_t id){
 	std::vector<std::string> v =  _hw->getNode(_reg_id).getNodes();
 	for(auto s : v){
 		uint32_t a = _hw->getNode(_reg_id).getNode(s).getAddress();
 		if (a == id){
-			const char * c= s.c_str();
-		    _m.emplace(a, c);
-		    return c;
+			//const char * c= s.c_str();
+		    _m.emplace(a, s);
+		    return s;
 		}
 	}
-	return NULL;
+	return "";
 }
 
 extern "C" {
