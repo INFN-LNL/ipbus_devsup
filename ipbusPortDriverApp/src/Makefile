@@ -42,7 +42,6 @@ iocAsyn_SYS_LIBS += cactus_uhal_grammars
 iocAsyn_SYS_LIBS += cactus_uhal_log
 iocAsyn_SYS_LIBS += cactus_uhal_uhal
 iocAsyn_SYS_LIBS += cactus_uhal_tests 
-iocAsyn_SYS_LIBS += cactus_extern_pugixml 
 
 PROD_IOC = testreading
 testreading_SRCS += test_reg_reading.cpp
