@@ -185,12 +185,6 @@ static asynUInt32Digital bacco_UInt32digital_itf = {
 
 void uint32DigitalInterruptFire(struct baccoPort *port, const void *rxd)
 {
-	ELLLIST *pclientList;
-	interruptNode *pnode;
-	asynInt32Interrupt *pinterrupt;
-	epicsUInt32 data;
-
-	//TODO
 	return;
 
 //	pasynManager->interruptStart(port->pasynInt32Pvt, &pclientList);
