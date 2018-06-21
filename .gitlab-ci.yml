@@ -1,0 +1,87 @@
+ubuntu16:
+  image: ubuntu:16.04
+
+  before_script: 
+    - pwd
+    - apt update 
+    - apt -y install git build-essential libreadline-dev re2c make erlang g++ libboost-all-dev libpugixml-dev python-all-dev rsyslog libgsl-dev
+
+# install ipbus software
+    - touch /usr/lib/erlang/man/man1/x86_64-linux-gnu-gcov-tool.1.gz
+    - touch /usr/lib/erlang/man/man1/gcov-tool.1.gz
+    - git clone --depth=1 -b v2.6.1  https://github.com/ipbus/ipbus-software.git
+    - cd ipbus-software
+    - make -j5
+    - make install
+    - export LD_LIBRARY_PATH=/opt/cactus/lib:$LD_LIBRARY_PATH
+    - cd ..
+
+# install epicsmng
+    - git clone https://github.com/darcato/epicsmng.git
+    - cd epicsmng
+    - sh install.sh
+    - export USER="root"
+    - cd ..
+
+  script: 
+    - cd $CI_PROJECT_DIR
+    - epicsmng makemodules -j5 -v ipbus_mod.conf
+    - make distclean
+    - make
+
+centos7yum:
+  image: centos:7.4.1708
+
+  before_script:
+    - yum -y install epel-release wget git readline-devel make gcc gcc-c++ gsl-devel boost-devel
+    - wget https://ipbus.web.cern.ch/ipbus/doc/user/html/_downloads/ipbus-sw.centos7.x86_64.repo
+    - cp ipbus-sw.centos7.x86_64.repo /etc/yum.repos.d/ipbus-sw.repo
+    - yum clean all
+    - yum -y groupinstall uhal
+    - export LD_LIBRARY_PATH=/opt/cactus/lib:$LD_LIBRARY_PATH
+
+# install epicsmng
+    - git clone https://github.com/darcato/epicsmng.git
+    - cd epicsmng
+    - sh install.sh
+    - export USER="root"
+    - cd ..
+
+  script: 
+    - cd $CI_PROJECT_DIR
+    - epicsmng makemodules -j5 -v ipbus_mod.conf
+    - make distclean
+    - make
+      
+centos7src:
+  image: centos:7.4.1708
+
+  before_script:
+    - yum -y install epel-release
+    - yum -y install git readline-devel make gcc gcc-c++ rpm-build erlang boost-devel pugixml-devel python-devel gsl-devel wget
+
+# install ipbus software
+    - mkdir superlongdirectoryname
+    - cd superlongdirectoryname
+    - git clone --depth=1 -b v2.6.1  https://github.com/ipbus/ipbus-software.git
+    - cd ipbus-software
+    - make -j5
+#    - make rpm
+#    - yum -y localinstall `find . -iname "*.rpm"`
+    - make install
+    - export LD_LIBRARY_PATH=/opt/cactus/lib:$LD_LIBRARY_PATH
+    - cd ../..
+
+# install epicsmng
+    - git clone https://github.com/darcato/epicsmng.git
+    - cd epicsmng
+    - sh install.sh
+    - export USER="root"
+    - cd ..
+
+  script: 
+    - cd $CI_PROJECT_DIR
+    - epicsmng makemodules -j5 -v ipbus_mod.conf
+    - make distclean
+    - make
+
