@@ -12,3 +12,5 @@ git clone --depth=1 -b v2.6.1  https://github.com/ipbus/ipbus-software.git
 cd ipbus-software
 make
 sudo make install
+
+# If you need to start the ioc as a service, rember to add the LD_LIBRARY_PATH to the environment of the service
