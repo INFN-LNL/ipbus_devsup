@@ -1,1 +1,10 @@
+.vscode/
+O.*
+db/
+dbd/
+bin/
+lib/
+include/
 modules/
+*envPaths
+*.pyc
