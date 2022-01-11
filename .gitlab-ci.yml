@@ -1,5 +1,4 @@
 ubuntu20:
-  stage: build
   image: ubuntu:20.04
   script:
     - apt-get update
@@ -24,7 +23,6 @@ ubuntu20:
     - make
 
 ubuntu18:
-  stage: build
   image: ubuntu:18.04
   script:
     - apt-get update
@@ -49,7 +47,6 @@ ubuntu18:
     - make
 
 ubuntu16:
-  stage: build
   image: ubuntu:16.04
   script:
     - apt-get update
