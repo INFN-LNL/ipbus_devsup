@@ -1,55 +1,40 @@
 ubuntu20:
-  stage: build
   image: ubuntu:20.04
   script:
     - apt-get update
     - apt-get install -y build-essential git python-is-python3 libreadline-dev
     - DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y libboost-all-dev libpugixml-dev erlang
     - mkdir /opt/cactus
-    - cd /opt/cactus
-    - git clone --progress --verbose --depth=1 -b v2.8.1 --recurse-submodules https://github.com/ipbus/ipbus-software.git
-    - cd ipbus-software
-    - make Set=uhal
-    - make install Set=uhal
+    - git clone --progress --verbose --depth=1 -b v2.8.1 --recurse-submodules https://github.com/ipbus/ipbus-software.git /opt/cactus/ipbus-software
+    - make -C /opt/cactus/ipbus-software Set=uhal
+    - make install -C /opt/cactus/ipbus-software Set=uhal
     - export LD_LIBRARY_PATH=/opt/cactus/lib:$LD_LIBRARY_PATH
     - export PATH=/opt/cactus/bin:$PATH
-    - cd /
     - git clone --progress --verbose --depth=1 -b v2.4.1 https://github.com/darcato/epicsmng.git
-    - cd epicsmng
-    - sh install.sh
-    - source ~/.bashrc
-    - export USER="root"
+    - sh epicsmng/install.sh
     - cd $CI_PROJECT_DIR
-    - epicsmng makemodules -v ipbus_mod.conf
+    - /root/.local/bin/epicsmng makemodules -v ipbus_mod.conf
     - make
 
 ubuntu18:
-  stage: build
   image: ubuntu:18.04
   script:
     - apt-get update
     - apt-get install -y build-essential git python libreadline-dev
     - DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y libboost-all-dev libpugixml-dev erlang
     - mkdir /opt/cactus
-    - cd /opt/cactus
-    - git clone --progress --verbose --depth=1 -b v2.8.1 --recurse-submodules https://github.com/ipbus/ipbus-software.git
-    - cd ipbus-software
-    - make Set=uhal
-    - make install Set=uhal
+    - git clone --progress --verbose --depth=1 -b v2.8.1 --recurse-submodules https://github.com/ipbus/ipbus-software.git /opt/cactus/ipbus-software
+    - make -C /opt/cactus/ipbus-software Set=uhal
+    - make install -C /opt/cactus/ipbus-software Set=uhal
     - export LD_LIBRARY_PATH=/opt/cactus/lib:$LD_LIBRARY_PATH
     - export PATH=/opt/cactus/bin:$PATH
-    - cd /
     - git clone --progress --verbose --depth=1 -b v2.4.1 https://github.com/darcato/epicsmng.git
-    - cd epicsmng
-    - sh install.sh
-    - source ~/.bashrc
-    - export USER="root"
+    - sh epicsmng/install.sh
     - cd $CI_PROJECT_DIR
-    - epicsmng makemodules -v ipbus_mod.conf
+    - /root/.local/bin/epicsmng makemodules -v ipbus_mod.conf
     - make
 
 ubuntu16:
-  stage: build
   image: ubuntu:16.04
   script:
     - apt-get update
@@ -58,21 +43,15 @@ ubuntu16:
     - touch /usr/lib/erlang/man/man1/x86_64-linux-gnu-gcov-tool.1.gz
     - touch /usr/lib/erlang/man/man1/gcov-tool.1.gz
     - mkdir /opt/cactus
-    - cd /opt/cactus
-    - git clone --progress --verbose --depth=1 -b v2.8.1 --recurse-submodules https://github.com/ipbus/ipbus-software.git
-    - cd ipbus-software
-    - make Set=uhal
-    - make install Set=uhal
+    - git clone --progress --verbose --depth=1 -b v2.8.1 --recurse-submodules https://github.com/ipbus/ipbus-software.git /opt/cactus/ipbus-software
+    - make -C /opt/cactus/ipbus-software Set=uhal
+    - make install -C /opt/cactus/ipbus-software Set=uhal
     - export LD_LIBRARY_PATH=/opt/cactus/lib:$LD_LIBRARY_PATH
     - export PATH=/opt/cactus/bin:$PATH
-    - cd /
     - git clone --progress --verbose --depth=1 -b v2.4.1 https://github.com/darcato/epicsmng.git
-    - cd epicsmng
-    - sh install.sh
-    - source ~/.bashrc
-    - export USER="root"
+    - sh epicsmng/install.sh
     - cd $CI_PROJECT_DIR
-    - epicsmng makemodules -v ipbus_mod.conf
+    - /root/.local/bin/epicsmng makemodules -v ipbus_mod.conf
     - make
     
 centos7:
@@ -84,28 +63,25 @@ centos7:
     - yum groupinstall --skip-broken -y uhal
     - export LD_LIBRARY_PATH=/opt/cactus/lib:$LD_LIBRARY_PATH
     - git clone --progress --verbose --depth=1 -b v2.4.1 https://github.com/darcato/epicsmng.git
-    - cd epicsmng
-    - sh install.sh
-    - source ~/.bashrc
-    - export USER="root"
+    - sh epicsmng/install.sh
     - cd $CI_PROJECT_DIR
-    - epicsmng makemodules -v ipbus_mod.conf
+    - /root/.local/bin/epicsmng makemodules -v ipbus_mod.conf
     - make
 
-centos8:
-  image: centos:8
-  script:
-    - yum -y install yum-utils git readline-devel make gcc-c++
-    - curl https://ipbus.web.cern.ch/doc/user/html/_downloads/ipbus-sw.centos8.x86_64.repo -o /etc/yum.repos.d/ipbus-sw.repo
-    - yum-config-manager --enable powertools
-    - yum clean all
-    - yum groupinstall --skip-broken -y uhal
-    - export LD_LIBRARY_PATH=/opt/cactus/lib:$LD_LIBRARY_PATH
-    - git clone --progress --verbose --depth=1 -b v2.4.1 https://github.com/darcato/epicsmng.git
-    - cd epicsmng
-    - sh install.sh
-    - source ~/.bashrc
-    - export USER="root"
-    - cd $CI_PROJECT_DIR
-    - epicsmng makemodules -v ipbus_mod.conf
-    - make
+#centos8:
+#  image: centos:8
+#  script:
+#    - yum -y install yum-utils git readline-devel make gcc-c++ 
+#    - curl https://ipbus.web.cern.ch/doc/user/html/_downloads/ipbus-sw.centos8.x86_64.repo -o /etc/yum.repos.d/ipbus-sw.repo
+#    - yum-config-manager --enable powertools
+#    - yum clean all
+#    - yum -y groupinstall uhal
+#    - export LD_LIBRARY_PATH=/opt/cactus/lib:$LD_LIBRARY_PATH
+#    - yum -y install rpcgen libtirpc-devel
+#    - git clone --progress --verbose --depth=1 -b v2.4.1 https://github.com/darcato/epicsmng.git
+#    - sh epicsmng/install.sh
+#    - mkdir -p ~/.config/epicsmng/patches/asyn/R4-42/
+#    - cp $CI_PROJECT_DIR/centos8.patch ~/.config/epicsmng/patches/asyn/R4-42/
+#    - cd $CI_PROJECT_DIR
+#    - /root/.local/bin/epicsmng makemodules -v ipbus_mod.conf
+#    - make
