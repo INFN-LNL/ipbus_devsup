@@ -60,7 +60,7 @@ centos7:
     - yum -y install git readline-devel make gcc-c++
     - curl https://ipbus.web.cern.ch/doc/user/html/_downloads/ipbus-sw.centos7_gcc8.x86_64.repo -o /etc/yum.repos.d/ipbus-sw.repo
     - yum clean all
-    - yum groupinstall --skip-broken -y uhal
+    - yum -y groupinstall uhal
     - export LD_LIBRARY_PATH=/opt/cactus/lib:$LD_LIBRARY_PATH
     - git clone --progress --verbose --depth=1 -b v2.4.1 https://github.com/darcato/epicsmng.git
     - sh epicsmng/install.sh
