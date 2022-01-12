@@ -78,7 +78,9 @@ yum clean all
 yum -y groupinstall uhal
 ```
 
-## Installation
+# How to use
+
+## Update the EPICS IOC configuration
 
 If using epicsmng, add to your epicsmng `user.settings` file the following lines:
 
@@ -96,8 +98,6 @@ Add to the _.conf_ file in your ioc the line: `ipbus = <TAG>` where _TAG_ refers
 
 Otherwise add it to your IOC as you normally do with other epics modules.
 
-## How to use
-
 To correctly use the library we need to update some environment variables. 
 
 ```
@@ -107,9 +107,68 @@ export PATH=/opt/cactus/bin:$PATH
 
 These commands take effect only on the current terminal. Add them to your `~/.bashrc` file to keep them permanent.
 
-If you need to start the ioc as a service, add the `LD_LIBRARY_PATH` to the environment variable of the service.
+    If you need to start the ioc as a service, add the LD_LIBRARY_PATH to the environment variable of the service.
 
-## Developers
+## Load the registers configuration in the EPICS IOC
+
+1. Associate the MAC addresses of the instruments to control to the correct IP as described [here](utilities/rarp/README.md).
+2. Copy `connections.xml` and `registers.xml` files (placed in `utilities/epics_ioc_integration/`) in your EPICS IOC. The location is not mandatory but we suggest to copy them in the same folder of your `st.cmd` file. 
+2. Edit `connections.xml`:
+   - Edit the value of the tag `id` with a suitable name for your hardware. (i.e. id="MyIoc")
+   - Associate the tag `uri` to the correct IP address. ("ipbusudp-2.0://10.10.10.101:50001"). Do not change the port number, it must be **50001**. To edit the port value a firmware update is required.
+   - If the `registers.xml` file is not placed in the same folder of `connections.xml`, update the value of the tag `address_table` with the path to the `registers.xml` file.
+3. In the `st.cmd` file create an IPBUS port for each instrument to control. The syntax is: `baccoCreateIPBusPort <IPBUS_PORT_NAME> <PATH_TO_CONNECTION_XML> <IOC_CONNECTION_NAME>`.
+    - **baccoCreateIPBusPort** is the command to create the IPBUS port.
+    - **IPBUS_PORT_NAME** is the port name to use in the IOC records.
+    - **PATH_TO_CONNECTION_XML** is the path to the `connection.xml` file.
+    - **IOC_NAME** is the ID of the connection defined in the `connections.xml` file.
+
+## Create PV records using the IPBUS protocol
+
+A PV with an INP field can receive data from one of the IPBUS port defined in the `st.cmd` file. Similarly a PV with an OUT field can send data to one of them. 
+
+The syntax to use in the INP or OUT field is 
+
+`asyn(IPBUS_PORT_NAME,0,0)reg(REG_FUNC,ADDRESS[,WIDTH[,SHIFT[,SIGNED[,DEC_BITS]]]])`
+- **IPBUS_PORT_NAME** is the IPBUS port name defined in the `st.cmd` file.
+- **REG_FUNC** is the _register function_:
+  - 1 = _sl1_.
+  - 2 = _sl2_.
+  In this case it is always 1.
+- **ADDRESS** is the _register address_, of the specified _register function_, in hexadecimal value.
+- **WIDTH** is the number of bits, of the read value, to consider.
+- **SHIFT** is the number of position to right shift the read value.
+- **SIGNED** specifies if the acquired value is signed or unsigned.
+- **DEC_BITS** 
+
+      record(ai, "Example1") {
+            field(DTYP, "asynInt32")
+            field(INP,  "@asyn("myIoc",0,0)reg(1,0x58,1,3,u)")
+      }
+
+      In this case, Example1 is connected to <node id="BPM_CTRL_REG" address="0x58"/> in read-only mode. More in details this PV reads only the the third bit of the acquired value.
+
+Or, to read nodes in block mode,
+
+`asyn(IPBUS_PORT_NAME,0,0)regArray(REG_FUNC,START_ADD,WIDTH)`
+- **IPBUS_PORT_NAME** is the IPBUS port name defined in the `st.cmd` file.
+- **REG_FUNC** is the _register function_:
+  - 1 = _sl1_.
+  - 2 = _sl2_.
+  In this case it is always 2.
+- **START_ADD** is the start address. Always 0 because the second node is made up of a unique block.
+- **WIDTH** is the number of registers to read.
+
+      record(waveform, "Example2") {
+            field(DTYP, "asynInt32ArrayIn")
+            field(INP, "@asyn("myIoc",0,0)regArray(2,0,512)")
+      }
+
+    In this case the PV is connected to <node id="reg_0"   address="0x000" mode="block" size="0x200"/>.
+
+It is not possible to associate a PV to a non existing node!
+
+# Developers
 
 Install and compile from this repository
 
