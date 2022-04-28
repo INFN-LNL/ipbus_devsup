@@ -14,6 +14,7 @@
 #include <epicsExport.h>
 #include <epicsTypes.h>
 #include <cantProceed.h>
+#include <string.h>
 
 struct cbuff{
 	epicsFloat64 *buf;
