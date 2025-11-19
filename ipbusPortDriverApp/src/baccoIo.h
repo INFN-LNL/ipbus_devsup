@@ -5,7 +5,7 @@
 #define MAGIC_WORD 0xabcdfedc
 
 #include <asynDriver.h>
-#include <uhal.h>
+#include <uhalWrap.h>
 #include <registerIPBUS.h>
 #include <baccoObject.h>
 
