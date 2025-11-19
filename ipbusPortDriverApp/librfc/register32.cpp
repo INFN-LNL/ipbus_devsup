@@ -7,6 +7,7 @@
 
 #include "register32.h"
 #include <assert.h>
+#include <stdio.h>
 
 uint32_t register32::get() const
 {
